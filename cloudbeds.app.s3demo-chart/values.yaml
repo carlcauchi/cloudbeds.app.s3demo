@@ -5,14 +5,30 @@
 replicaCount: 1
 
 image:
-  repository: nginx
+  repository: carlcauchi/cloudbeds.app.s3demo
   pullPolicy: IfNotPresent
   # Overrides the image tag whose default is the chart appVersion.
   tag: ""
 
 imagePullSecrets: []
 nameOverride: ""
-fullnameOverride: ""
+fullnameOverride: "s3demo"
+
+## AWS Bucket Name to be connected to.
+##
+AWS_BUCKET_NAME: bucket_name
+
+## AWS Authentication Key ID.
+##
+AWS_KEY_ID: key_id
+
+## AWS Authentication Secret Access Key.
+##
+AWS_SECRET_ACCESS_KEY: secret_access_key
+
+## AWS Region Name.
+##
+AWS_REGION_NAME: eu-west-1
 
 serviceAccount:
   # Specifies whether a service account should be created
@@ -21,7 +37,7 @@ serviceAccount:
   annotations: {}
   # The name of the service account to use.
   # If not set and create is true, a name is generated using the fullname template
-  name: ""
+  name: "s3demo"
 
 podAnnotations: {}
 
@@ -42,13 +58,13 @@ service:
 
 ingress:
   enabled: true
-  annotations: {}
+  annotations:
     kubernetes.io/ingress.class: nginx
     # kubernetes.io/tls-acme: "true"
   hosts:
-    - host: s3demo.34.252.36.160.nip.io
-      paths: []
-  tls: []
+    - host: s3demo.54.72.4.250.nip.io
+      paths: [/]
+  tls: false
   #  - secretName: chart-example-tls
   #    hosts:
   #      - chart-example.local
@@ -77,3 +93,21 @@ nodeSelector: {}
 tolerations: []
 
 affinity: {}
+
+## Configure extra options for liveness and readiness probes
+## ref: https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-probes/#configure-probes)
+##
+livenessProbe:
+  enabled: true
+  initialDelaySeconds: 120
+  periodSeconds: 10
+  timeoutSeconds: 5
+  failureThreshold: 6
+  successThreshold: 1
+readinessProbe:
+  enabled: true
+  initialDelaySeconds: 30
+  periodSeconds: 5
+  timeoutSeconds: 3
+  failureThreshold: 6
+  successThreshold: 1
