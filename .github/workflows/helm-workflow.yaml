@@ -18,7 +18,7 @@ jobs:
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: eu-west-1
       - name: Helm release
-        uses: shellbear/helm-release-action@0.1
+        uses: shellbear/helm-release-action@v0.1
         with:
           repo: s3://cloudbeds-helmrepo/stable/cloudbeds.app.s3demo
           chart: ./cloudbeds.app.s3demo-chart
