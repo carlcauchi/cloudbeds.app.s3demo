@@ -6,7 +6,6 @@ from config import create_s3_client
  
 # bucket name
 # note - we are considering that the bucket already exists in the aws environment.
-# we can have a check_bucket function() to check whether the bucket exists or not
 BUCKET = os.environ['AWS_BUCKET_NAME']
  
 # s3 client instance to perform the s3 related operations
